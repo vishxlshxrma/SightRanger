@@ -1,0 +1,33 @@
+version: "3"
+name: "sightranger"
+
+services:
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile
+        container_name: backend
+        restart: always
+        networks:
+            - sightranger
+        env_file:
+            - ./backend/.env
+        ports:
+            - "8000:8000"
+
+    frontend:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        container_name: frontend
+        restart: always
+        networks:
+            - sightranger
+        ports:
+            - "3000:3000"
+        depends_on:
+            - backend
+
+networks:
+    sightranger:
+        name: sightranger
